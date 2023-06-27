@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Free Web tutorials">
+        <meta name="keywords" content="HTML, CSS, JavaScript">
+        <meta name="author" content="John Doe">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chat</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.0/socket.io.js" integrity="sha512-+sXUwEYakGznuXubXLO/7LWSAPcm+U3NxMJaSu3S5OcvruAAAzaC50Uh4TW9KWj0hA6vfPAjB7E1uuIXgn9vmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+        <script type="text/JavaScript">
+            $(document).ready(function() {
+                var socket = io.connect("http://localhost:5000")
+                socket.on("connect", function() {
+                    socket.send("User connected!");
+                });
+
+                socket.on("message", function(data) {
+                    $('#messages').append($('<p>').text(data));
+                });
+
+                $('#sendBtn').on('click', function() {
+                    socket.send($('#username').val() + ': ' +$('#message').val());
+                    $('#message').val('');
+                });
+            })
+        </script>
+        <div id="messages">
+
+
+        </div>
+        <input type="text" id="username" placeholder="Username">
+        <input type="text" id="message" placeholder="Message">
+        <button id="sendBtn">Send</button>
+    </body>
+</html>
